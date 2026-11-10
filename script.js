@@ -13,6 +13,11 @@ const PULLS = [
   {n:"Hoodie Zip",     p:95, a:"", b:""},
   {n:"Pull Maille",    p:89, a:"", b:""}
 ];
+const BOTTOMS = [
+  {n:"Pantalon SAME",p:70,a:"",b:""},
+  {n:"Short SAME",p:40,a:"",b:""}
+];
+const STANDARD_SIZES=["XS","S","M","L","XL","XXL"];
 /* ================================================== */
 
 const img=(s,t)=>s?`<img src="${s}" alt="${t||''}" loading="lazy">`:'';
@@ -24,15 +29,16 @@ else document.getElementById('hero').insertAdjacentHTML('afterbegin','<div class
 document.getElementById('tk').textContent=('LIVRAISON OFFERTE DÈS 80 €  ✕  NOUVEAU DROP  ✕  PIÈCES UNISEXES  ✕  RETOURS 30 JOURS  ✕  ').repeat(6);
 
 let n=0;const cart=document.getElementById('cart');
-const knownProducts=new Map([...TEES,...PULLS].map(product=>[product.n,product]));
-const validSizes=new Set(['XS','S','M','L','XL','XXL']);
+const allProducts=[...TEES,...PULLS,...BOTTOMS];
+const knownProducts=new Map(allProducts.map(product=>[product.n,product]));
+const sizesFor=product=>product.sizes||STANDARD_SIZES;
 let cartItems=[];
 try{
   const saved=JSON.parse(localStorage.getItem('same-cart')||'[]');
   if(Array.isArray(saved)){
     cartItems=saved.map(item=>{
       const product=knownProducts.get(item.name);
-      return product&&validSizes.has(item.size)?{name:product.n,price:product.p,size:item.size}:null;
+      return product&&sizesFor(product).includes(item.size)?{name:product.n,price:product.p,size:item.size}:null;
     }).filter(Boolean).slice(0,50);
   }
 }catch{}
@@ -90,13 +96,17 @@ function fill(id,list,cnt){
     c.querySelector('.add').onclick=()=>{
       pendingProduct=p;
       sizeProduct.textContent=p.n;
-      sizeSelect.value='';
+      sizeSelect.replaceChildren(new Option('Choisir une taille',''));
+      sizeSelect.options[0].disabled=true;
+      sizeSelect.options[0].selected=true;
+      sizesFor(p).forEach(size=>sizeSelect.add(new Option(size,size)));
       sizeDialog.showModal();
     };
     g.appendChild(c);
   });
 }
 fill('g1',TEES,'n1');fill('g2',PULLS,'n2');
+fill('g3',BOTTOMS,'n3');
 
 sizeForm.addEventListener('submit',e=>{
   e.preventDefault();

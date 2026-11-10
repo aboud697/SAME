@@ -1,14 +1,16 @@
+const APPAREL_SIZES=['XS','S','M','L','XL','XXL'];
 const PRODUCTS=new Map([
-  ['Tee Box Logo',35],
-  ['Tee Oversize',39],
-  ['Tee Washed',42],
-  ['Tee Graphic 01',45],
-  ['Hoodie Heavy',85],
-  ['Crewneck SAME',75],
-  ['Hoodie Zip',95],
-  ['Pull Maille',89]
+  ['Tee Box Logo',{price:35,sizes:APPAREL_SIZES}],
+  ['Tee Oversize',{price:39,sizes:APPAREL_SIZES}],
+  ['Tee Washed',{price:42,sizes:APPAREL_SIZES}],
+  ['Tee Graphic 01',{price:45,sizes:APPAREL_SIZES}],
+  ['Hoodie Heavy',{price:85,sizes:APPAREL_SIZES}],
+  ['Crewneck SAME',{price:75,sizes:APPAREL_SIZES}],
+  ['Hoodie Zip',{price:95,sizes:APPAREL_SIZES}],
+  ['Pull Maille',{price:89,sizes:APPAREL_SIZES}],
+  ['Pantalon SAME',{price:70,sizes:APPAREL_SIZES}],
+  ['Short SAME',{price:40,sizes:APPAREL_SIZES}]
 ]);
-const SIZES=new Set(['XS','S','M','L','XL','XXL']);
 
 export const json=(data,status=200)=>new Response(JSON.stringify(data),{
   status,
@@ -20,9 +22,9 @@ export function calculateCart(body){
     throw new Error('Panier invalide.');
   }
   const items=body.items.map(item=>{
-    const price=PRODUCTS.get(item?.name);
-    if(price===undefined||!SIZES.has(item?.size))throw new Error('Produit ou taille invalide.');
-    return {name:item.name,price,size:item.size};
+    const product=PRODUCTS.get(item?.name);
+    if(!product||!product.sizes.includes(item?.size))throw new Error('Produit ou taille invalide.');
+    return {name:item.name,price:product.price,size:item.size};
   });
   const subtotal=items.reduce((sum,item)=>sum+item.price,0);
   const shipping=subtotal>=80?0:5;
