@@ -24,7 +24,6 @@ const img=(s,t)=>s?`<img src="${s}" alt="${t||''}" loading="lazy">`:'';
 const slot=(s,t,l)=>s?img(s,t):`<div class="empty">${l}</div>`;
 
 if(HERO_PHOTO){document.getElementById('hero').insertAdjacentHTML('afterbegin',img(HERO_PHOTO,''))}
-else document.getElementById('hero').insertAdjacentHTML('afterbegin','<div class="hint">Photo de l’accueil</div>');
 
 document.getElementById('tk').textContent=('LIVRAISON OFFERTE DÈS 80 €  ✕  NOUVEAU DROP  ✕  PIÈCES UNISEXES  ✕  RETOURS 30 JOURS  ✕  ').repeat(6);
 
