@@ -22,6 +22,7 @@
 <div class="tick" aria-hidden="true"><div id="tk"></div></div>
 
 <main>
+  <p class="checkout-status" id="checkout-status" role="status" aria-live="polite" hidden></p>
   <section class="sec" id="tees"><h2>Tee-shirts<span id="n1"></span></h2><div class="grid" id="g1"></div></section>
   <section class="sec" id="pulls"><h2>Pulls<span id="n2"></span></h2><div class="grid" id="g2"></div></section>
   <section class="sec" id="lookbook"><h2>Lookbook</h2><div class="look" id="look"></div></section>
@@ -32,6 +33,48 @@
   <nav><a href="#">Livraison</a><a href="#">Retours</a><a href="#">Guide des tailles</a><a href="#">Instagram</a><a href="contact.html">Contact</a></nav>
   <small>© 2026 SAME</small>
 </footer>
+
+<dialog class="size-dialog" id="size-dialog" aria-labelledby="size-title">
+  <form class="size-form" id="size-form">
+    <h2 id="size-title">Choisir une taille</h2>
+    <p id="size-product"></p>
+    <label for="size-select">Taille</label>
+    <select id="size-select" name="size" required>
+      <option value="" selected disabled>Choisir une taille</option>
+      <option value="XS">XS</option>
+      <option value="S">S</option>
+      <option value="M">M</option>
+      <option value="L">L</option>
+      <option value="XL">XL</option>
+      <option value="XXL">XXL</option>
+    </select>
+    <div class="size-actions">
+      <button class="size-cancel" type="button">Annuler</button>
+      <button class="btn" type="submit">Ajouter au panier</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="cart-dialog" id="cart-dialog" aria-labelledby="cart-title">
+  <section class="cart-panel">
+    <header class="cart-heading">
+      <h2 id="cart-title">Mon panier</h2>
+      <button class="cart-close" type="button" aria-label="Fermer le panier">×</button>
+    </header>
+    <p class="cart-empty" id="cart-empty">Votre panier est vide.</p>
+    <div class="cart-lines" id="cart-lines"></div>
+    <dl class="cart-totals">
+      <div><dt>Sous-total</dt><dd id="cart-subtotal">0 €</dd></div>
+      <div><dt>Livraison</dt><dd id="cart-shipping">0 €</dd></div>
+      <div class="cart-total"><dt>Total</dt><dd id="cart-total">0 €</dd></div>
+    </dl>
+    <div class="checkout-actions">
+      <button class="checkout-button" id="pay-card" type="button">Carte / Apple Pay</button>
+      <button class="checkout-paypal" id="pay-paypal" type="button">Payer avec PayPal</button>
+    </div>
+    <p class="checkout-note">Stripe propose les moyens disponibles sur ton appareil. Livraison en France, offerte dès 80 €.</p>
+  </section>
+</dialog>
 
 <script src="script.js"></script>
 </body>
